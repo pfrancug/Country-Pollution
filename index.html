@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="src/auto-complete.css">
+    <link rel="stylesheet" href="src/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h3 class="text-center mt-5">
+            Check most polluted cities in your country</br>
+            <small class="text-muted">Based on PM2.5 measurement</small>
+        </h3>
+        <div class="row justify-content-center m-4">
+            <div class="input-group my-1 col-6">
+                <input id="search-text" class="form-control alert-light" name="search-text" type="text"
+                    placeholder="Country">
+                <div class="input-group-append">
+                    <button id="search" type="button" class="btn btn-success text-dark">Check</button>
+                </div>
+            </div>
+        </div>
+        <div id="results" class="row justify-content-center mb-5"></div>
+    </div>
+
+    <script src="src/jquery-3.4.1.min.js"></script>
+    <script src="src/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="src/auto-complete.min.js"></script>
+    <script src="requests.js"></script>
+    <script src="functions.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
