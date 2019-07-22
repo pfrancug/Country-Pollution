@@ -1,16 +1,3 @@
-// const checkIfAvaiable = () => {
-//     for (let i = 0; i < countries.length; i++) {
-//         if (value === countries[i][0].toLowerCase()) {
-//             btn.setAttribute('class', 'btn btn-success text-dark')
-//             btn.removeAttribute('disabled')
-//             return
-//         } else {
-//             btn.setAttribute('class', 'btn btn-dark')
-//             btn.setAttribute('disabled', true)
-//         }
-//     }
-// }
-
 const saveCountry = (country) => {
     localStorage.setItem('country', JSON.stringify(country))
 }
@@ -20,14 +7,15 @@ const getSavedCountry = () => {
     document.querySelector('#search-text').value = savedCountry
 }
 
-const getCC = (countryName) => {
-    let cc
+const setCountryCode = () => {
+    let country = document.querySelector('#search-text').value
+    country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase()
     countries.forEach(element => {
-        if (element[0] === countryName) {
-            cc = element[1]
+        if (element[0] === country) {
+            countryCode = element[1]
+            return
         }
     })
-    return cc
 }
 
 const startFromIs = (city, description) => {
