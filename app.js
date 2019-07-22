@@ -46,14 +46,7 @@ document.querySelector('#search').addEventListener('click', (e) => {
             } else {
                 for (let i = 0; i < cities.length; i++) {
                     city = cities[i]
-                    getDescription((error, description) => {
-                        if (error) {
-                            results.appendChild(generateErrorElement(error))
-                        } else {
-                            const formattedDesc = formatDescription(city, description)
-                            results.appendChild(generateCityElement(city, formattedDesc))
-                        }
-                    })
+                    results.appendChild(getDescription())
                 }
             }
         })

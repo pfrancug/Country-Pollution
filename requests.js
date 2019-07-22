@@ -19,19 +19,16 @@ const getCities = (callback) => {
     request.send()
 }
 
-const getDescription = (callback) => {
+const getDescription = () => {
     const request = new XMLHttpRequest()
-    request.addEventListener('readystatechange', (e) => {
-        if (e.target.readyState === 4 && e.target.status === 200) {
-            let data = JSON.parse(e.target.responseText).query.pages
-            data = data[Object.keys(data)[0]].extract
-            callback(undefined, data)
-        } else if (e.target.readyState === 4) {
-            console.log(e)
-
-            callback('An error has taken place, please try again later.', undefined)
-        }
-    })
     request.open('GET', `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&titles=${city}`, false)
     request.send()
+    if (request.readyState === 4 && request.status === 200) {
+        let data = JSON.parse(request.responseText).query.pages
+        data = data[Object.keys(data)[0]].extract
+        const formattedDesc = formatDescription(city, data)
+        return generateCityElement(city, formattedDesc)
+    } else if (request.readyState === 4) {
+        return generateErrorElement('An error has taken place, please try again later.')
+    }
 }
