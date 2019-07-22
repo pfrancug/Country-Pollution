@@ -10,6 +10,7 @@ const getSavedCountry = () => {
 const setCountryCode = () => {
     let input = document.querySelector('#search-text').value
     input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+    saveCountry(input)
     for (let i = 0; i < countries.length; i++) {
         if (countries[i][0] === input) {
             countryCode = countries[i][1]
@@ -86,7 +87,7 @@ const generateCityElement = (city, description) => {
 
 const generateErrorElement = (error) => {
     const alertEl = document.createElement('div')
-    alertEl.setAttribute('class', 'alert alert-light col-6')
+    alertEl.setAttribute('class', 'alert alert-light')
     alertEl.setAttribute('role', 'alert')
     const headingEl = document.createElement('p')
     headingEl.setAttribute('class', 'h4 alert-heading')
@@ -95,7 +96,7 @@ const generateErrorElement = (error) => {
     messageEl.textContent = error
     const hrEl = document.createElement('hr')
     const pEl = document.createElement('p')
-    pEl.setAttribute('class', 'mb-0')
+    pEl.setAttribute('class', 'text-right mb-0')
     pEl.textContent = 'Stay healthy!'
     alertEl.appendChild(headingEl)
     alertEl.appendChild(messageEl)
@@ -103,3 +104,26 @@ const generateErrorElement = (error) => {
     alertEl.appendChild(pEl)
     return alertEl
 }
+
+// const fetchData = () => {
+//     results.appendChild(loadingElement())
+//     getCities((error, cities) => {
+//         document.querySelector('#loader').remove()
+//         if (error) {
+//             document.querySelector('#loader').remove()
+//             results.appendChild(generateErrorElement(error))
+//         } else {
+//             for (let i = 0; i < cities.length; i++) {
+//                 city = cities[i]
+//                 getDescription((error, description) => {
+//                     if (error) {
+//                         results.appendChild(generateErrorElement(error))
+//                     } else {
+//                         const formattedDesc = formatDescription(city, description)
+//                         results.appendChild(generateCityElement(city, formattedDesc))
+//                     }
+//                 })
+//             }
+//         }
+//     })
+// }

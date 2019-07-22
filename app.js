@@ -8,6 +8,7 @@ getSavedCountry()
 new autoComplete({
     selector: 'input[name="search-text"]',
     minChars: 0,
+    menuClass: '',
     source: (term, suggest) => {
         term = term.toLowerCase()
         const suggestions = [];
@@ -27,11 +28,13 @@ new autoComplete({
 
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
 
-document.querySelector('#search').addEventListener('click', () => {
-    results.innerHTML = ''
+document.querySelector('#search').addEventListener('click', (e) => {
+    e.preventDefault()
+    document.querySelector(':focus').blur()
     setCountryCode()
+    results.innerHTML = ''
     if (countryCode === null) {
-        const msg = `Sorry, please try one of supported country from the list.`
+        const msg = `Please try one of listed countries.`
         results.appendChild(generateErrorElement(msg))
     } else {
         results.appendChild(loadingElement())
@@ -41,8 +44,8 @@ document.querySelector('#search').addEventListener('click', () => {
                 document.querySelector('#loader').remove()
                 results.appendChild(generateErrorElement(error))
             } else {
-                cities.forEach(element => {
-                    city = element
+                for (let i = 0; i < cities.length; i++) {
+                    city = cities[i]
                     getDescription((error, description) => {
                         if (error) {
                             results.appendChild(generateErrorElement(error))
@@ -51,7 +54,7 @@ document.querySelector('#search').addEventListener('click', () => {
                             results.appendChild(generateCityElement(city, formattedDesc))
                         }
                     })
-                })
+                }
             }
         })
     }
