@@ -66,11 +66,11 @@ const generateCityElement = (city, description) => {
     if (description) {
         btnEl.setAttribute('class', 'btn btn-success text-dark my-1 col-4')
         btnEl.setAttribute('data-toggle', 'collapse')
-        btnEl.setAttribute('data-target', `#${city}`)
+        btnEl.setAttribute('data-target', `#${city.replace(/\s/g, '')}`)
         btnEl.textContent = 'Learn more'
         const collapseEl = document.createElement('div')
         collapseEl.setAttribute('class', 'collapse pb-3')
-        collapseEl.setAttribute('id', city)
+        collapseEl.setAttribute('id', city.replace(/\s/g, ''))
         const cardEl = document.createElement('div')
         cardEl.setAttribute('class', 'card card-body text-justify')
         cardEl.textContent = description
