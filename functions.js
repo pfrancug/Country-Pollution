@@ -18,7 +18,7 @@ const setCountryCode = () => {
     })
 }
 
-const startFromIs = (city, description) => {
+const formatDescription = (city, description) => {
     let index
     if (description === undefined) {
         return null
@@ -34,9 +34,7 @@ const startFromIs = (city, description) => {
     }
 }
 
-const loading = () => {
-    const results = document.querySelector('#results')
-    results.innerHTML = ''
+const loadingElement = () => {
     const text = document.createElement('div')
     text.setAttribute('id', 'loader')
     text.setAttribute('class', 'text-center')
@@ -47,11 +45,10 @@ const loading = () => {
     sr.setAttribute('class', 'sr-only')
     sr.textContent = 'Loading...'
     text.appendChild(spinner).appendChild(sr)
-    results.appendChild(text)
+    return text
 }
 
 const generateCityElement = (city, description) => {
-    const parent = document.querySelector('#results')
     const cityEl = document.createElement('div')
     cityEl.setAttribute('class', 'border border-dark rounded my-1 col-8')
     const paragraphEl = document.createElement('p')
@@ -82,5 +79,22 @@ const generateCityElement = (city, description) => {
         btnEl.textContent = 'Lack of data'
     }
     paragraphEl.appendChild(btnEl)
-    parent.appendChild(cityEl)
+    return cityEl
+}
+
+const generateErrorElement = (error) => {
+    const alertEl = document.createElement('div')
+    alertEl.setAttribute('class', 'alert alert-danger')
+    alertEl.setAttribute('role', 'alert')
+    const headingEl = document.createElement('h4')
+    headingEl.setAttribute('class', 'alert-heading')
+    headingEl.textContent = 'Error!'
+    const hrEl = document.createElement('hr')
+    const pEl = document.createElement('p')
+    pEl.setAttribute('class', 'mb-0')
+    pEl.textContent = error
+    alertEl.appendChild(headingEl)
+    alertEl.appendChild(hrEl)
+    alertEl.appendChild(pEl)
+    return alertEl
 }

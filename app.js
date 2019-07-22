@@ -27,7 +27,9 @@ new autoComplete({
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
 
 document.querySelector('#search').addEventListener('click', () => {
-    loading()
+    const results = document.querySelector('#results')
+    results.innerHTML = ''
+    results.appendChild(loadingElement())
     setCountryCode()
     getCities((error, cities) => {
         if (error) {
@@ -40,7 +42,8 @@ document.querySelector('#search').addEventListener('click', () => {
                     if (error) {
                         console.log(`Error: ${error}`)
                     } else {
-                        generateCityElement(city, startFromIs(city, description))
+                        const formattedDesc = formatDescription(city, description)
+                        results.appendChild(generateCityElement(city, formattedDesc))
                     }
                 })
             })
