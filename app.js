@@ -1,18 +1,4 @@
-const countries = [
-    {
-        name: 'Poland',
-        cc: 'PL'
-    }, {
-        name: 'Germany',
-        cc: 'DE'
-    }, {
-        name: 'Spain',
-        cc: 'ES'
-    }, {
-        name: 'France',
-        cc: 'FR'
-    }
-]
+const countries = [['Poland', 'PL'], ['Spain', 'ES'], ['France', 'FR'], ['Germany', 'DE']]
 let countryCode
 let city
 
@@ -21,25 +7,32 @@ getSavedCountry()
 new autoComplete({
     selector: 'input[name="search-text"]',
     minChars: 0,
-    source: function (term, suggest) {
+    source: (term, suggest) => {
         term = term.toLowerCase()
-        const choices = []
-        countries.forEach(element => {
-            choices.push(element.name)
-        })
-        const matches = []
-        for (i = 0; i < choices.length; i++)
-            if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i])
-        suggest(matches)
+        const suggestions = [];
+        for (i = 0; i < countries.length; i++)
+            if (~(countries[i][0] + ' ' + countries[i][1]).toLowerCase().indexOf(term)) suggestions.push(countries[i])
+        suggest(suggestions);
+    },
+    renderItem: (item, search) => {
+        search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+        return `<div class="autocomplete-suggestion" data-langname="${item[0]}" data-lang="${item[1]}" data-val="${search}"><img src="src/img/${item[0]}.png"> ${item[0].replace(re, '<b>$1</b>')}</div>`
+    },
+    onSelect: function (e, term, item) {
+        document.getElementById('search-text').value = item.getAttribute('data-langname')
     }
 })
 
-document.querySelector('#search').addEventListener('click', (e) => {
+// document.querySelector('#search-text').addEventListener('input', () => checkIfAvaiable())
+// document.querySelector('#search-text').addEventListener('change', () => checkIfAvaiable())
+
+document.querySelector('#search').addEventListener('click', () => {
     loading()
-    let cc = document.querySelector('#search-text').value.toLowerCase()
-    cc = cc.charAt(0).toUpperCase() + cc.slice(1).toLowerCase()
-    countryCode = getCC(cc)
-    saveCountry()
+    let country = document.querySelector('#search-text').value.toLowerCase()
+    country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase()
+    countryCode = getCC(country)
+    saveCountry(country)
     getCities((error, cities) => {
         if (error) {
             console.log(`Error: ${error}`)
@@ -58,3 +51,4 @@ document.querySelector('#search').addEventListener('click', (e) => {
         }
     })
 })
+

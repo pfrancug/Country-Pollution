@@ -1,21 +1,33 @@
-const getCC = (countryName) => {
-    let cc
-    countries.forEach(element => {
-        if (element.name === countryName) {
-            cc = element.cc
-        }
-    })
-    return cc
-}
+// const checkIfAvaiable = () => {
+//     for (let i = 0; i < countries.length; i++) {
+//         if (value === countries[i][0].toLowerCase()) {
+//             btn.setAttribute('class', 'btn btn-success text-dark')
+//             btn.removeAttribute('disabled')
+//             return
+//         } else {
+//             btn.setAttribute('class', 'btn btn-dark')
+//             btn.setAttribute('disabled', true)
+//         }
+//     }
+// }
 
-const saveCountry = () => {
-    let input = document.querySelector('#search-text').value
-    localStorage.setItem('country', JSON.stringify(input))
+const saveCountry = (country) => {
+    localStorage.setItem('country', JSON.stringify(country))
 }
 
 const getSavedCountry = () => {
     const savedCountry = JSON.parse(localStorage.getItem('country'))
     document.querySelector('#search-text').value = savedCountry
+}
+
+const getCC = (countryName) => {
+    let cc
+    countries.forEach(element => {
+        if (element[0] === countryName) {
+            cc = element[1]
+        }
+    })
+    return cc
 }
 
 const startFromIs = (city, description) => {
@@ -30,7 +42,7 @@ const startFromIs = (city, description) => {
     if (index === undefined) {
         return null
     } else {
-        return `${city} ${description.slice(index, description.length)}`
+        return `${city} ${description.slice(index)}`
     }
 }
 
