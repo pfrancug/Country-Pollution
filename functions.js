@@ -4,13 +4,14 @@ const saveCountry = (country) => {
 
 const getSavedCountry = () => {
     const savedCountry = JSON.parse(localStorage.getItem('country'))
-    input.value = savedCountry
+    document.querySelector('#search-text').value = savedCountry
 }
 
 const setCountryCode = () => {
-    input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase()
+    let input = document.querySelector('#search-text').value
+    input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
     for (let i = 0; i < countries.length; i++) {
-        if (countries[i][0] === input.value) {
+        if (countries[i][0] === input) {
             countryCode = countries[i][1]
             return
         } else {
@@ -85,16 +86,19 @@ const generateCityElement = (city, description) => {
 
 const generateErrorElement = (error) => {
     const alertEl = document.createElement('div')
-    alertEl.setAttribute('class', 'alert alert-danger')
+    alertEl.setAttribute('class', 'alert alert-light col-6')
     alertEl.setAttribute('role', 'alert')
-    const headingEl = document.createElement('h4')
-    headingEl.setAttribute('class', 'alert-heading')
+    const headingEl = document.createElement('p')
+    headingEl.setAttribute('class', 'h4 alert-heading')
     headingEl.textContent = 'Error!'
+    const messageEl = document.createElement('p')
+    messageEl.textContent = error
     const hrEl = document.createElement('hr')
     const pEl = document.createElement('p')
     pEl.setAttribute('class', 'mb-0')
-    pEl.textContent = error
+    pEl.textContent = 'Stay healthy!'
     alertEl.appendChild(headingEl)
+    alertEl.appendChild(messageEl)
     alertEl.appendChild(hrEl)
     alertEl.appendChild(pEl)
     return alertEl

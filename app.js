@@ -1,6 +1,5 @@
 const countries = [['Poland', 'PL'], ['Spain', 'ES'], ['France', 'FR'], ['Germany', 'DE']]
 const results = document.querySelector('#results')
-const input = document.querySelector('#search-text')
 let countryCode
 let city
 
@@ -22,7 +21,7 @@ new autoComplete({
         return `<div class="autocomplete-suggestion" data-langname="${item[0]}" data-lang="${item[1]}" data-val="${search}"><img src="src/img/${item[0]}.png"> ${item[0].replace(re, '<b>$1</b>')}</div>`
     },
     onSelect: (e, term, item) => {
-        input.value = item.getAttribute('data-langname')
+        document.querySelector('#search-text').value = item.getAttribute('data-langname')
     }
 })
 
@@ -32,19 +31,21 @@ document.querySelector('#search').addEventListener('click', () => {
     results.innerHTML = ''
     setCountryCode()
     if (countryCode === null) {
-        results.appendChild(generateErrorElement('test'))
+        const msg = `Sorry, please try one of supported country from the list.`
+        results.appendChild(generateErrorElement(msg))
     } else {
         results.appendChild(loadingElement())
         getCities((error, cities) => {
+            document.querySelector('#loader').remove()
             if (error) {
-                console.log(`Error: ${error}`)
-            } else {
                 document.querySelector('#loader').remove()
+                results.appendChild(generateErrorElement(error))
+            } else {
                 cities.forEach(element => {
                     city = element
                     getDescription((error, description) => {
                         if (error) {
-                            console.log(`Error: ${error}`)
+                            results.appendChild(generateErrorElement(error))
                         } else {
                             const formattedDesc = formatDescription(city, description)
                             results.appendChild(generateCityElement(city, formattedDesc))
