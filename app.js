@@ -1,4 +1,6 @@
 const countries = [['Poland', 'PL'], ['Spain', 'ES'], ['France', 'FR'], ['Germany', 'DE']]
+const results = document.querySelector('#results')
+const input = document.querySelector('#search-text')
 let countryCode
 let city
 
@@ -20,34 +22,37 @@ new autoComplete({
         return `<div class="autocomplete-suggestion" data-langname="${item[0]}" data-lang="${item[1]}" data-val="${search}"><img src="src/img/${item[0]}.png"> ${item[0].replace(re, '<b>$1</b>')}</div>`
     },
     onSelect: (e, term, item) => {
-        document.getElementById('search-text').value = item.getAttribute('data-langname')
+        input.value = item.getAttribute('data-langname')
     }
 })
 
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
 
 document.querySelector('#search').addEventListener('click', () => {
-    const results = document.querySelector('#results')
     results.innerHTML = ''
-    results.appendChild(loadingElement())
     setCountryCode()
-    getCities((error, cities) => {
-        if (error) {
-            console.log(`Error: ${error}`)
-        } else {
-            document.querySelector('#loader').remove()
-            cities.forEach(element => {
-                city = element
-                getDescription((error, description) => {
-                    if (error) {
-                        console.log(`Error: ${error}`)
-                    } else {
-                        const formattedDesc = formatDescription(city, description)
-                        results.appendChild(generateCityElement(city, formattedDesc))
-                    }
+    if (countryCode === null) {
+        results.appendChild(generateErrorElement('test'))
+    } else {
+        results.appendChild(loadingElement())
+        getCities((error, cities) => {
+            if (error) {
+                console.log(`Error: ${error}`)
+            } else {
+                document.querySelector('#loader').remove()
+                cities.forEach(element => {
+                    city = element
+                    getDescription((error, description) => {
+                        if (error) {
+                            console.log(`Error: ${error}`)
+                        } else {
+                            const formattedDesc = formatDescription(city, description)
+                            results.appendChild(generateCityElement(city, formattedDesc))
+                        }
+                    })
                 })
-            })
-        }
-    })
+            }
+        })
+    }
 })
 

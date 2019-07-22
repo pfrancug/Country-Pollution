@@ -4,18 +4,19 @@ const saveCountry = (country) => {
 
 const getSavedCountry = () => {
     const savedCountry = JSON.parse(localStorage.getItem('country'))
-    document.querySelector('#search-text').value = savedCountry
+    input.value = savedCountry
 }
 
 const setCountryCode = () => {
-    let country = document.querySelector('#search-text').value
-    country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase()
-    countries.forEach(element => {
-        if (element[0] === country) {
-            countryCode = element[1]
+    input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase()
+    for (let i = 0; i < countries.length; i++) {
+        if (countries[i][0] === input.value) {
+            countryCode = countries[i][1]
             return
+        } else {
+            countryCode = null
         }
-    })
+    }
 }
 
 const formatDescription = (city, description) => {
