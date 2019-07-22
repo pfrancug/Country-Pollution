@@ -8,7 +8,6 @@ getSavedCountry()
 new autoComplete({
     selector: 'input[name="search-text"]',
     minChars: 0,
-    menuClass: '',
     source: (term, suggest) => {
         term = term.toLowerCase()
         const suggestions = [];
@@ -38,17 +37,18 @@ document.querySelector('#search').addEventListener('click', (e) => {
         results.appendChild(generateErrorElement(msg))
     } else {
         results.appendChild(loadingElement())
-        getCities((error, cities) => {
+        getCities(countryCode).then((cities) => {
             document.querySelector('#loader').remove()
-            if (error) {
-                document.querySelector('#loader').remove()
-                results.appendChild(generateErrorElement(error))
-            } else {
-                for (let i = 0; i < cities.length; i++) {
-                    city = cities[i]
-                    results.appendChild(getDescription())
-                }
+            for (let i = 0; i < cities.length; i++) {
+                getDescription(cities[i]).then((description) => {
+                    results.appendChild(generateCityElement(cities[i], description))
+                }, (error) => {
+                    results.appendChild(generateCityElement(cities[i], null, error))
+                })
             }
+        }, (error) => {
+            document.querySelector('#loader').remove()
+            results.appendChild(generateErrorElement(error))
         })
     }
 })

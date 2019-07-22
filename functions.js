@@ -51,7 +51,7 @@ const loadingElement = () => {
     return text
 }
 
-const generateCityElement = (city, description) => {
+const generateCityElement = (city, description, error) => {
     const cityEl = document.createElement('div')
     cityEl.setAttribute('class', 'border border-dark rounded my-1 col-8')
     const paragraphEl = document.createElement('p')
@@ -76,6 +76,10 @@ const generateCityElement = (city, description) => {
         cardEl.textContent = description
         cityEl.appendChild(collapseEl)
         collapseEl.appendChild(cardEl)
+    } else if (error) {
+        btnEl.setAttribute('class', 'btn btn-danger my-1 col-4')
+        btnEl.setAttribute('disabled', true)
+        btnEl.textContent = 'Error occured'
     } else {
         btnEl.setAttribute('class', 'btn btn-dark my-1 col-4')
         btnEl.setAttribute('disabled', true)
@@ -104,26 +108,3 @@ const generateErrorElement = (error) => {
     alertEl.appendChild(pEl)
     return alertEl
 }
-
-// const fetchData = () => {
-//     results.appendChild(loadingElement())
-//     getCities((error, cities) => {
-//         document.querySelector('#loader').remove()
-//         if (error) {
-//             document.querySelector('#loader').remove()
-//             results.appendChild(generateErrorElement(error))
-//         } else {
-//             for (let i = 0; i < cities.length; i++) {
-//                 city = cities[i]
-//                 getDescription((error, description) => {
-//                     if (error) {
-//                         results.appendChild(generateErrorElement(error))
-//                     } else {
-//                         const formattedDesc = formatDescription(city, description)
-//                         results.appendChild(generateCityElement(city, formattedDesc))
-//                     }
-//                 })
-//             }
-//         }
-//     })
-// }

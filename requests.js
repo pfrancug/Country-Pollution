@@ -1,4 +1,4 @@
-const getCities = (callback) => {
+const getCities = (countryCode) => new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.addEventListener('readystatechange', (e) => {
         if (e.target.readyState === 4 && e.target.status === 200) {
@@ -8,27 +8,27 @@ const getCities = (callback) => {
                 cities.push(element.city)
             })
             const topCities = (cities) => cities.filter((v, i) => cities.indexOf(v) === i).slice(0, 10)
-            callback(undefined, topCities(cities))
+            resolve(topCities(cities))
         } else if (e.target.readyState === 4) {
-            console.log(e)
-
-            callback('An error has taken place, please try again later.', undefined)
+            reject('Please try again later.')
         }
     })
     request.open('GET', `https://api.openaq.org/v1/measurements?country=${countryCode}&parameter=pm25&limit=250&order_by=value&sort=desc`)
     request.send()
-}
+})
 
-const getDescription = () => {
+const getDescription = (city) => new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
-    request.open('GET', `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&titles=${city}`, false)
+    request.addEventListener('readystatechange', (e) => {
+        if (e.target.readyState === 4 && e.target.status === 200) {
+            let data = JSON.parse(request.responseText).query.pages
+            data = data[Object.keys(data)[0]].extract
+            const formattedDesc = formatDescription(city, data)
+            resolve(formattedDesc)
+        } else if (e.target.readyState === 4) {
+            reject('Please try again later.')
+        }
+    })
+    request.open('GET', `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&titles=${city}`)
     request.send()
-    if (request.readyState === 4 && request.status === 200) {
-        let data = JSON.parse(request.responseText).query.pages
-        data = data[Object.keys(data)[0]].extract
-        const formattedDesc = formatDescription(city, data)
-        return generateCityElement(city, formattedDesc)
-    } else if (request.readyState === 4) {
-        return generateErrorElement('An error has taken place, please try again later.')
-    }
-}
+})
