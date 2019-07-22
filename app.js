@@ -37,19 +37,7 @@ document.querySelector('#search').addEventListener('click', (e) => {
         results.appendChild(generateErrorElement(msg))
     } else {
         results.appendChild(loadingElement())
-        getCities(countryCode).then((cities) => {
-            document.querySelector('#loader').remove()
-            for (let i = 0; i < cities.length; i++) {
-                getDescription(cities[i]).then((description) => {
-                    results.appendChild(generateCityElement(cities[i], description))
-                }, (error) => {
-                    results.appendChild(generateCityElement(cities[i], null, error))
-                })
-            }
-        }, (error) => {
-            document.querySelector('#loader').remove()
-            results.appendChild(generateErrorElement(error))
-        })
+        getData()
     }
 })
 
