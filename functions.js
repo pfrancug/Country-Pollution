@@ -1,6 +1,4 @@
-const saveCountry = (country) => {
-    localStorage.setItem('country', JSON.stringify(country))
-}
+const saveCountry = (country) => localStorage.setItem('country', JSON.stringify(country))
 
 const getSavedCountry = () => {
     const savedCountry = JSON.parse(localStorage.getItem('country'))
@@ -28,19 +26,16 @@ const fetchData = () => {
 }
 
 const formatDescription = (city, description) => {
-    let index
-    if (description === undefined) {
-        return null
-    } else if (description.indexOf('is a') >= 0) {
-        index = description.indexOf('is a')
-    } else if (description.indexOf('is the') >= 0) {
-        index = description.indexOf('is the')
+    let index = () => {
+        if (description.indexOf('is a')) {
+            return description.slice(description.indexOf('is a'))
+        } else if (description.indexOf('is the')) {
+            return description.slice(description.indexOf('is the'))
+        } else {
+            return null
+        }
     }
-    if (index === undefined) {
-        return null
-    } else {
-        return `${city} ${description.slice(index)}`
-    }
+    return index() ? `${city} ${index()}` : null
 }
 
 const loadingElement = () => {
