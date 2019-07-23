@@ -10,8 +10,7 @@ const getCities = (countryCode) => {
         data.results.forEach(element => {
             cities.push(element.city)
         })
-        const topCities = (cities) => cities.filter((v, i) => cities.indexOf(v) === i).slice(0, 10)
-        return (topCities(cities))
+        return cities.filter((v, i) => cities.indexOf(v) === i).slice(0, 10)
     }).then((cities) => {
         document.querySelector('#loader').remove()
         for (let i = 0; i < cities.length; i++) {
