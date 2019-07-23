@@ -6,22 +6,18 @@ const getSavedCountry = () => {
 }
 
 const fetchData = () => {
+    saveCountry(input)
     results.innerHTML = ''
     let input = document.querySelector('#search-text').value
     input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
-    saveCountry(input)
-    let countryCode
     for (let i = 0; i < countries.length; i++) {
         if (countries[i][0] === input) {
-            countryCode = countries[i][1]
+            results.appendChild(loadingElement())
+            return getCities(countries[i][1])
+        } else if (i === countries.length - 1) {
+            const msg = `Please try one of listed countries.`
+            results.appendChild(generateErrorElement(msg))
         }
-    }
-    if (countryCode) {
-        results.appendChild(loadingElement())
-        getCities(countryCode)
-    } else {
-        const msg = `Please try one of listed countries.`
-        results.appendChild(generateErrorElement(msg))
     }
 }
 
@@ -34,8 +30,6 @@ const formatDescription = (city, description) => {
         return null
     }
 }
-
-
 
 const loadingElement = () => {
     const text = document.createElement('div')
