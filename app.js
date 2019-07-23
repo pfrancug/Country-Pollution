@@ -16,11 +16,14 @@ new autoComplete({
     renderItem: (item, search) => {
         search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
         const re = new RegExp("(" + search.split(' ').join('|') + ")", "gi")
+        if (item[0].toLowerCase() === search.toLowerCase()) {
+            document.querySelector('.autocomplete-suggestions').setAttribute('hidden', true)
+        } else {
+            document.querySelector('.autocomplete-suggestions').removeAttribute('hidden')
+        }
         return `<div class="autocomplete-suggestion" data-langname="${item[0]}" data-lang="${item[1]}" data-val="${search}"><img src="src/img/${item[0]}.png"> ${item[0].replace(re, '<b>$1</b>')}</div>`
     },
-    onSelect: (e, term, item) => {
-        document.querySelector('#search-text').value = item.getAttribute('data-langname')
-    }
+    onSelect: (e, term, item) => document.querySelector('#search-text').value = item.getAttribute('data-langname')
 })
 
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
