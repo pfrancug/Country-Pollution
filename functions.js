@@ -24,8 +24,7 @@ const fetchData = () => {
 const formatDescription = (city, description) => {
     if (description === undefined) {
         return null
-    }
-    else if (description.indexOf('is a') !== -1) {
+    } else if (description.indexOf('is a') !== -1) {
         return `${city} ${description.slice(description.indexOf('is a'))}`
     } else if (description.indexOf('is the') !== -1) {
         return `${city} ${description.slice(description.indexOf('is the'))}`
