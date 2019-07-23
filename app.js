@@ -27,6 +27,6 @@ document.querySelector('#search-text').addEventListener('input', (e) => saveCoun
 
 document.querySelector('#search').addEventListener('click', (e) => {
     e.preventDefault()
-    // document.querySelector(':focus').blur() // doesn't work on Safari, causes crashes
+    document.querySelector('#search-text').blur()
     fetchData()
 })
