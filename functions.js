@@ -113,11 +113,7 @@ const getData = () => {
     getCities(countryCode).then((cities) => {
         document.querySelector('#loader').remove()
         for (let i = 0; i < cities.length; i++) {
-            getDescription(cities[i]).then((description) => {
-                results.appendChild(generateCityElement(cities[i], description))
-            }, (error) => {
-                results.appendChild(generateCityElement(cities[i], null, error))
-            })
+            getDescription(cities[i])
         }
     }, (error) => {
         document.querySelector('#loader').remove()
