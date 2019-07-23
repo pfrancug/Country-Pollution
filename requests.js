@@ -8,7 +8,11 @@ const getCities = (countryCode) => {
     }).then((data) => {
         const cities = []
         data.results.forEach(element => {
-            cities.push(element.city)
+            if (element.city.indexOf('/') !== -1) {
+                cities.push(element.city.slice(0, element.city.indexOf('/')))
+            } else {
+                cities.push(element.city)
+            }
         })
         return cities.filter((v, i) => cities.indexOf(v) === i).slice(0, 10)
     }).then((cities) => {
