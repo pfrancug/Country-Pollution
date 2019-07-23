@@ -7,17 +7,23 @@ const getSavedCountry = () => {
     document.querySelector('#search-text').value = savedCountry
 }
 
-const setCountryCode = () => {
+const fetchData = () => {
+    results.innerHTML = ''
     let input = document.querySelector('#search-text').value
     input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
     saveCountry(input)
+    let countryCode
     for (let i = 0; i < countries.length; i++) {
         if (countries[i][0] === input) {
             countryCode = countries[i][1]
-            return
-        } else {
-            countryCode = null
         }
+    }
+    if (countryCode) {
+        results.appendChild(loadingElement())
+        getCities(countryCode)
+    } else {
+        const msg = `Please try one of listed countries.`
+        results.appendChild(generateErrorElement(msg))
     }
 }
 
@@ -107,16 +113,4 @@ const generateErrorElement = (error) => {
     alertEl.appendChild(hrEl)
     alertEl.appendChild(pEl)
     return alertEl
-}
-
-const getData = () => {
-    getCities(countryCode).then((cities) => {
-        document.querySelector('#loader').remove()
-        for (let i = 0; i < cities.length; i++) {
-            getDescription(cities[i])
-        }
-    }, (error) => {
-        document.querySelector('#loader').remove()
-        results.appendChild(generateErrorElement(error))
-    })
 }

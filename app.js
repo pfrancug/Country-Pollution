@@ -1,7 +1,5 @@
 const countries = [['Poland', 'PL'], ['Spain', 'ES'], ['France', 'FR'], ['Germany', 'DE']]
 const results = document.querySelector('#results')
-let countryCode
-let city
 
 getSavedCountry()
 
@@ -12,7 +10,7 @@ new autoComplete({
         term = term.toLowerCase()
         const suggestions = [];
         for (i = 0; i < countries.length; i++)
-            if (~(countries[i][0] + ' ' + countries[i][1]).toLowerCase().indexOf(term)) suggestions.push(countries[i])
+            if (~(`${countries[i][0]} ${countries[i][1]}`).toLowerCase().indexOf(term)) suggestions.push(countries[i])
         suggest(suggestions)
     },
     renderItem: (item, search) => {
@@ -28,16 +26,7 @@ new autoComplete({
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
 
 document.querySelector('#search').addEventListener('click', (e) => {
-    e.preventDefault()
     document.querySelector(':focus').blur()
-    setCountryCode()
-    results.innerHTML = ''
-    if (countryCode === null) {
-        const msg = `Please try one of listed countries.`
-        results.appendChild(generateErrorElement(msg))
-    } else {
-        results.appendChild(loadingElement())
-        getData()
-    }
+    e.preventDefault()
+    fetchData()
 })
-
