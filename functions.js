@@ -6,10 +6,10 @@ const getSavedCountry = () => {
 }
 
 const fetchData = () => {
-    saveCountry(input)
     results.innerHTML = ''
     let input = document.querySelector('#search-text').value
     input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+    saveCountry(input)
     for (let i = 0; i < countries.length; i++) {
         if (countries[i][0] === input) {
             results.appendChild(loadingElement())
