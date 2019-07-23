@@ -26,17 +26,16 @@ const fetchData = () => {
 }
 
 const formatDescription = (city, description) => {
-    let index = () => {
-        if (description.indexOf('is a')) {
-            return description.slice(description.indexOf('is a'))
-        } else if (description.indexOf('is the')) {
-            return description.slice(description.indexOf('is the'))
-        } else {
-            return null
-        }
+    if (description.indexOf('is a') !== -1) {
+        return `${city} ${description.slice(description.indexOf('is a'))}`
+    } if (description.indexOf('is the') !== -1) {
+        return `${city} ${description.slice(description.indexOf('is the'))}`
+    } else {
+        return null
     }
-    return index() ? `${city} ${index()}` : null
 }
+
+
 
 const loadingElement = () => {
     const text = document.createElement('div')
