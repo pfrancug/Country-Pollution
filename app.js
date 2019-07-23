@@ -26,7 +26,7 @@ new autoComplete({
 document.querySelector('#search-text').addEventListener('input', (e) => saveCountry(e.target.value))
 
 document.querySelector('#search').addEventListener('click', (e) => {
-    document.querySelector(':focus').blur()
     e.preventDefault()
+    document.querySelector(':focus').blur()
     fetchData()
 })
