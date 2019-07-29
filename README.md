@@ -1,9 +1,11 @@
-# Country-Pollution
-Check most polluted cities in your country
+## General info
+This project is simple web app to check most polluted cities in the country
+
+## Setup
+To run this project, install it locally using npm:
 
 ```sh
-$ npm install -g live-server
-$ git clone https://github.com/pfrancug/Country-Pollution.git
 $ cd Country-Pollution/
-$ live-server
+$ npm install
+$ npm start
 ```
