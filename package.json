@@ -1,0 +1,23 @@
+{
+  "name": "caountry-pollution",
+  "version": "1.0.0",
+  "description": "Check most polluted cities in your country",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server"
+  },
+  "author": "Piotr Francug",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pfrancug/Country-Pollution.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pfrancug/Country-Pollution/issues"
+  },
+  "homepage": "https://github.com/pfrancug/Country-Pollution#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
